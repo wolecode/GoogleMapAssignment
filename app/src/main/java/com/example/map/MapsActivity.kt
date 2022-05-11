@@ -172,6 +172,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         map.uiSettings?.isMyLocationButtonEnabled = false
                     }
                 }
+            } else {
+                Log.i("NOTHING YET", "Yeah, nothing")
             }
         } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message, e)
@@ -201,17 +203,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (grantResults.isNotEmpty() &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     locationPermissionGranted = true
+                    updateLocationUI()
+                    getDeviceLocation()
                 }
             }
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
-        updateLocationUI()
+       // updateLocationUI()
     }
 
     private fun updateLocationUI() {
-        if (map == null) {
-            return
-        }
+
         try {
             if (locationPermissionGranted) {
                 map.isMyLocationEnabled = true
